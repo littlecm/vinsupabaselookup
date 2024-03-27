@@ -25,13 +25,23 @@ with st.form("input_form"):
         results = query_inventory(vin_or_stock)
         if results:
             for result in results:
-                # More formatted display of results
+                # Formatted display of results with additional fields
                 st.subheader(f"{result.get('Year', 'Unknown Year')} {result.get('make', 'Unknown Make')} {result.get('model', 'Unknown Model')}")
                 st.write(f"**VIN:** {result.get('vin', 'N/A')}")
                 st.write(f"**Stock Number:** {result.get('stock', 'N/A')}")
-                st.write(f"**Body Type:** {result.get('body', 'N/A')}")
-                st.write(f"**MSRP:** ${result.get('msrp', 'N/A')}")
-                st.write(f"**Miles:** {result.get('miles', 'N/A')}")
+                st.write(f"**Link:** [View]({result.get('Link', '#')})")
+                st.write(f"**Type:** {result.get('Type', 'N/A')}")
+                if result.get('images'):
+                    images = result.get('images').split(',')  # Assuming images are comma-separated
+                    if images:
+                        st.image(images[0], caption="Vehicle Image", use_column_width=True)  # Display the first image
+                st.write(f"**Book Value:** ${result.get('bookvalue', 'N/A')}")
+                st.write(f"**Dealership:** {result.get('dealership', 'N/A')}")
+                st.write(f"**Misc Price 1:** ${result.get('miscprice1', 'N/A')}")
+                st.write(f"**Misc Price 2:** ${result.get('miscprice2', 'N/A')}")
+                st.write(f"**Misc Price 3:** ${result.get('miscprice3', 'N/A')}")
+                st.write(f"**Date in Stock:** {result.get('dateinstock', 'N/A')}")
+                st.write(f"**Selling Price:** ${result.get('sellingprice', 'N/A')}")
                 # Add more fields as desired
         else:
             st.write("No results found.")
